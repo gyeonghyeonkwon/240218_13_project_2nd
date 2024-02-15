@@ -71,7 +71,7 @@ const WritePage = () => {
         <textarea className="textarea textarea-bordered w-full max-w-xs" placeholder="내용을 입력해주세요"
           name="content"
           value={content}
-          onChange={handleChange}
+          onChange={handleChange} 
         ></textarea>
         </div>
       </div>

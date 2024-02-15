@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import BasicLayout from "../../layouts/BasicLayout";
 import { Link, useParams } from "react-router-dom";
+import moment from "moment";
+import 'moment/locale/ko'
 
 const ListPage = () => {
   const [PostList, setList] = useState([]);
@@ -33,17 +35,20 @@ const ListPage = () => {
             <th>생성일</th>
           </tr>
         </thead>
+        
         <tbody>
           {PostList.map((postDto) => (
+            
             <tr key={postDto.id}>
               <td>{postDto.id}</td>
               <td> <Link to={`/post/detail/${postDto.id}`}>{postDto.title}</Link></td>            
               <td>{postDto.content}</td>
-              <td>{postDto.createdDate}</td>
-              
+              <td>{moment(postDto.createdDate).local('ko').format('lll')}</td>   {/* moment 라이브러리 사용하여 날짜 포맷  */}
+             
             </tr>
-          ))}
-        </tbody>
+          ))} 
+          
+        </tbody> 
       </table>
     </div>
     </BasicLayout>
