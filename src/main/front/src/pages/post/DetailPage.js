@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {  useNavigate, useParams } from 'react-router-dom';
+import BasicLayout from '../../layouts/BasicLayout';
 
 const DetailPage = () => {
   const {id} = useParams(); //url id 매핑
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const [title , setTitle] = useState('');
   const [content , setContent] = useState('');
   const [createdDate , setCreatedDate] = useState('');
@@ -34,7 +35,11 @@ const DetailPage = () => {
     }
   };
   return (
-    
+    <BasicLayout>
+    <div style={{ 
+      display: 'flex', justifyContent: 'center', alignItems: 'center', 
+      width: '100%', height: '80vh' , display:'flex', flexDirection:'column' 
+      }}>
     <div >
             <h1>글 상세 페이지</h1>
             <br />
@@ -50,17 +55,15 @@ const DetailPage = () => {
             <input type ='text' className="input input-bordered w-full max-w-xs" value={createdDate} readOnly></input>
             <br />
             <br />
-            <button className="btn btn-primary" onClick={()=>{ navigate('/post/list') }}>뒤로가기</button>
-            <button className="btn btn-primary" onClick={()=>{ navigate(`/post/modify/${id}`) }}>수정하기</button>
+            <div className="button-container" >
+             <button className="btn btn-primary" style={{ marginRight: '10px'}} onClick={() => { navigate('/post/list') }}>뒤로가기</button>
+            <button className="btn btn-primary" style={{ marginRight: '10px'}} onClick={() => { navigate(`/post/modify/${id}`) }}>수정페이지</button>
             <button className="btn btn-primary" onClick={deleteWrite}>삭제하기</button>
+          </div>
             </div>
+          </div>
 
-            
-      
-
-
-
-
+            </BasicLayout>
   );
 }
 

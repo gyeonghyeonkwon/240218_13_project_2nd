@@ -1,9 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; 
+import { useNavigate, useParams } from 'react-router-dom'; 
+import BasicLayout from '../../layouts/BasicLayout';
 
 
 const UpdatePage = () => {
+  
+  const navigate = useNavigate(); 
+
   const {id} = useParams(); //url id 매핑
   const [formData, setFormData] = useState({
     title: '',
@@ -57,25 +61,34 @@ const UpdatePage = () => {
   };
 
   return (
+    <BasicLayout>
+    <div style={{ 
+      display: 'flex', justifyContent: 'center', alignItems: 'center', 
+      width: '100%', height: '80vh' , display:'flex', flexDirection:'column'
+      }}>
     <div>
-      <h2>게시물 수정</h2>
+      <h2>게시물 수정 페이지</h2>
+      <br />
       <form onSubmit={handleSubmit}>
         <div>
-          <label>제목:</label>
+          <label>제목</label>
           <input
           placeholder="제목을 입력해주세요" className="input input-bordered w-full max-w-xs" 
           type="text" name="title" value={formData.title} onChange={handleChange} />
         </div>
         <br />
         <div>
-          <label>내용:</label>
+          <label>내용</label>
           <textarea 
           className="textarea textarea-bordered w-full max-w-xs" placeholder="내용을 입력해주세요"
-          name="content" cols="30" rows="10" value={formData.content} onChange={handleChange}></textarea>
+          name="content"  value={formData.content} onChange={handleChange}></textarea>
         </div>
-        <button type="submit">수정 완료</button>
+        <button className="btn btn-primary" style={{ marginRight: '50px'}} type="submit">수정 하기</button>
+        <button className="btn btn-primary" onClick={() => { navigate('/post/list') }}>뒤로가기</button>
       </form>
     </div>
+    </div>
+    </BasicLayout>
   );
 };
 

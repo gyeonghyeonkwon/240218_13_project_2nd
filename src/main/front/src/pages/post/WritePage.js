@@ -1,6 +1,7 @@
 import axios from "axios";
 import {  useState } from "react";
 import BasicLayout from "../../layouts/BasicLayout";
+import { useNavigate } from "react-router-dom";
 
 const WritePage = () => {
 
@@ -9,6 +10,7 @@ const WritePage = () => {
     content: '',
   });
   const { title,  content } =  formData; //비구조 할당
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,14 +50,22 @@ const WritePage = () => {
 
   return (
 <BasicLayout>
-<div>
-      
+<div style={{ 
+      display: 'flex', justifyContent: 'center', alignItems: 'center', 
+      width: '100%', height: '80vh' , display:'flex', flexDirection:'column'
+      }}>
+    <div>
+    <h2>글 작성 페이지</h2>
+
+    <br />
+
+    <div>
         <label>제목</label>
         <input type="text" placeholder="제목을 입력해주세요" className="input input-bordered w-full max-w-xs" name="title" value={title} onChange={handleChange} />
       </div>
-      <br />
       
       <br />
+      
       <div>
         <label>내용</label>
         <textarea className="textarea textarea-bordered w-full max-w-xs" placeholder="내용을 입력해주세요"
@@ -63,13 +73,16 @@ const WritePage = () => {
           value={content}
           onChange={handleChange}
         ></textarea>
+        </div>
       </div>
-      <br />
+     
       <div>
-        <button className="btn btn-primary"onClick={handleSubmit}>저장</button>
+        <button className="btn btn-primary"  style={{ marginRight: '80px'}}onClick={handleSubmit}>저장</button>
+        <button className="btn btn-primary"  onClick={() => { navigate('/post/list') }}>뒤로가기</button>
+
+        </div>
       </div>
-    
-    </BasicLayout>
+      </BasicLayout>
   );
 };
 
