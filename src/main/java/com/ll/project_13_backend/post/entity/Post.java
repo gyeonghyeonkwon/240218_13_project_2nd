@@ -1,27 +1,19 @@
 package com.ll.project_13_backend.post.entity;
 
+import com.ll.project_13_backend.comment.entity.Comment;
 import com.ll.project_13_backend.global.BaseEntity;
 import com.ll.project_13_backend.member.entity.Member;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class Post extends BaseEntity {
 
     @Id
@@ -40,4 +32,6 @@ public class Post extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE )
+    private List<Comment> commentList;
 }

@@ -1,6 +1,5 @@
 package com.ll.project_13_backend.global.config;
 
-import java.nio.charset.StandardCharsets;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +18,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import java.nio.charset.StandardCharsets;
+
 @Configuration
 public class SecurityConfig {
 
@@ -30,7 +31,7 @@ public class SecurityConfig {
 
         http.authenticationManager(authenticationManager);
 
-        http
+        http.csrf().disable()
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
