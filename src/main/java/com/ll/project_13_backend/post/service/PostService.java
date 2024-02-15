@@ -25,8 +25,6 @@ public interface PostService {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .memberId(post.getMember().getId())
-                .memberName(post.getMember().getUserName())
                 .createdDate(post.getCreatedDate())
                 .modifiedDate(post.getModifiedDate())
                 .build();
@@ -35,7 +33,7 @@ public interface PostService {
     }
 
     // dto → 엔티티
-    default Post toEntity(PostDto postDto) {
+    default Post toEntity(final PostDto postDto ) {
 
         return Post.builder()
                 .id(postDto.getId())

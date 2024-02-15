@@ -28,10 +28,13 @@ class PostServiceTest {
     @DisplayName("게시글 찾기 ")
     void findPost() {
 
+
+
         Post post = Post.builder()
                 .id(1L)
                 .title("하하")
                 .content("호호")
+
                 .build();
         postRepository.save(post);
 
@@ -49,13 +52,15 @@ class PostServiceTest {
                 .id(1L)
                 .title("안녕")
                 .content("하세요")
+                .memberName("홍길동")
                 .build();
 
 
-        postService.createPost(postDto);
+        postService.createPost(postDto );
 
         assertThat(postDto.getTitle()).isEqualTo("안녕");
         assertThat(postDto.getContent()).isEqualTo("하세요");
+
 
     }
 

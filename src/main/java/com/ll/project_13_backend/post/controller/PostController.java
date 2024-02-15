@@ -27,9 +27,9 @@ public class PostController {
 
     //글 생성
     @PostMapping("/create")
-    public Long creatPost(@Valid @RequestBody final PostDto postDto) {
+    public Long creatPost(@Valid @RequestBody final PostDto postDto ) {
 
-        return postService.createPost(postDto);
+        return postService.createPost(postDto );
 
     }
     //글 상세
@@ -39,7 +39,7 @@ public class PostController {
         return postService.findPost(id);
     }
     //글 수정
-    @PutMapping("/modify/{id}")
+    @PutMapping("/update/{id}")
     public void updatePost(@Valid @RequestBody final PostDto postDto ,@PathVariable final Long id) {
 
         postService.updatePost(postDto , id ) ;

@@ -26,7 +26,7 @@ function NaviGationBar() {
       </div>
     </div>
     <div className="navbar-center">
-      <Link to={'/'} className="btn btn-ghost text-xl">daisyUI</Link>
+      <Link to={'/'} className="btn btn-ghost text-xl">Crud</Link>
     </div>
     <div className="navbar-end">
       <button className="btn btn-ghost btn-circle">

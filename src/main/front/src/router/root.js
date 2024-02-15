@@ -3,11 +3,11 @@ const { createBrowserRouter, Navigate } = require("react-router-dom");
 
 const Loading = <span className="loading loading-spinner loading-lg"></span>//로딩
 
-const Login = lazy(() => import("../pages/member/LoginPage")) //보여질 로그인 페이지 
-const PostList = lazy(() => import("../post/list/PostList")) //보여질 리스트 페이지 
-const Write = lazy(() => import("../post/create/Write")) //보여질 글작성 페이지 
-const PostModify = lazy(() => import("../post/modify/PostModify"))
-const Detail = lazy(() => import("../post/detail/Detail"))
+const LoginPage = lazy(() => import("../pages/member/LoginPage")) //보여질 로그인 페이지 
+const ListPage = lazy(() => import("../pages/post/ListPage")) //보여질 리스트 페이지 
+const WritePage = lazy(() => import("../pages/post/WritePage")) //보여질 글작성 페이지 
+const UpdatePage = lazy(() => import("../pages/post/UpdatePage"))
+const DetailPage = lazy(() => import("../pages/post/DetailPage"))
 
 
 
@@ -19,24 +19,24 @@ const root = createBrowserRouter ([
   },
   {
     path: "member/login", //로그인 페이지 이동 
-    element: <Suspense fallback={Loading}><Login/></Suspense>
+    element: <Suspense fallback={Loading}><LoginPage/></Suspense>
   },
   {
     path: "post/list", //글 리스트 이동 
-    element: <Suspense fallback={Loading}><PostList/></Suspense>
+    element: <Suspense fallback={Loading}><ListPage/></Suspense>
   },
   {
     path: "post/write", //글 작성 이동
-    element: <Suspense fallback={Loading}><Write/></Suspense>
+    element: <Suspense fallback={Loading}><WritePage/></Suspense>
   },
   {
     path: 'post/modify/:id', //글 수정 이동
-    element: <Suspense fallback={Loading}><PostModify/></Suspense>
+    element: <Suspense fallback={Loading}><UpdatePage/></Suspense>
     
   },
   {
     path: 'post/detail/:id', //글 상세 이동 
-    element: <Suspense fallback={Loading}><Detail/></Suspense>
+    element: <Suspense fallback={Loading}><DetailPage/></Suspense>
     
   }
 

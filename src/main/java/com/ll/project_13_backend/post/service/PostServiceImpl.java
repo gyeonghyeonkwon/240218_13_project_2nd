@@ -24,9 +24,9 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
 
-    public Long createPost(final PostDto postDto ) {
+    public Long createPost(final PostDto postDto) {
 
-        Post post = toEntity(postDto); //@service 메서드 에 선언
+        Post post = toEntity(postDto ); //@service 메서드 에 선언
 
         Post postCreate = postRepository.save(post); // 게시글 엔티티 저장
 
@@ -66,8 +66,6 @@ public class PostServiceImpl implements PostService {
                         .id(post.getId())
                         .title(post.getTitle())
                         .content(post.getContent())
-                        .memberId(post.getId())
-                        .memberName(post.getMember().getUserName())
                         .createdDate(post.getCreatedDate())
                         .modifiedDate(post.getModifiedDate())
                         .build())
