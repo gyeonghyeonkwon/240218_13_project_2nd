@@ -6,7 +6,6 @@ import com.ll.project_13_backend.member.repository.MemberRepository;
 import com.ll.project_13_backend.post.dto.PostDto;
 import com.ll.project_13_backend.post.entity.Post;
 import com.ll.project_13_backend.post.repository.PostRepository;
-import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-@Slf4j
+
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
@@ -50,7 +49,6 @@ public class PostServiceImpl implements PostService {
         post.setContent(postDto.getContent()); //내용 수정
 
         postRepository.save(post);
-
     }
 
     @Transactional
@@ -71,5 +69,6 @@ public class PostServiceImpl implements PostService {
                         .build())
                 .collect(Collectors.toList());
     }
+
 
 }

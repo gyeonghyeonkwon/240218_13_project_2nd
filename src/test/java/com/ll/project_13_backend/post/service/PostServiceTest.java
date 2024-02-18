@@ -3,7 +3,9 @@ package com.ll.project_13_backend.post.service;
 import com.ll.project_13_backend.post.dto.PostDto;
 import com.ll.project_13_backend.post.entity.Post;
 import com.ll.project_13_backend.post.repository.PostRepository;
-import groovy.util.logging.Log4j2;
+import com.ll.project_13_backend.post.repository.PostSearch;
+import groovy.util.logging.Slf4j;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @TestPropertySource(properties = {"spring.config.location = classpath:application-test.yml"})
-@Log4j2
+@Transactional
+@Slf4j
 class PostServiceTest {
 
     @Autowired
@@ -27,6 +30,9 @@ class PostServiceTest {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private PostSearch postSearch;
 
     @Test
     @DisplayName("게시글 찾기 ")
@@ -101,6 +107,9 @@ class PostServiceTest {
         postService.deletePost(savePost.getId());
 
         assertEquals(100 , postRepository.count());
+
+
+
     }
 
     @Test
@@ -115,6 +124,15 @@ class PostServiceTest {
         assertThat(posts.getTotalElements()).isEqualTo(100L); // db 에 저장 되어 있는 전체 데이터
         assertThat(posts.getSize()).isEqualTo(10L); //페이지당 보여줄 데이터의 갯수
         assertThat(posts.getNumber()).isEqualTo(0L);
+
+    }
+
+    @Test
+    @DisplayName("검색")
+    void search() {
+
+       Page<Post> posts = postSearch.search();
+
 
     }
 }
