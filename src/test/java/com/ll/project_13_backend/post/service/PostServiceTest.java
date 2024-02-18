@@ -8,6 +8,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -99,5 +103,16 @@ class PostServiceTest {
         postService.deletePost(savePost.getId());
 
         assertEquals(0 , postRepository.count());
+    }
+
+    @Test
+    @DisplayName("페이징")
+    void PageTest () {
+
+        Pageable pageable = PageRequest.of(0,10, Sort.by("id").descending());
+
+        Page<Post> posts =  postRepository.findAll(pageable);
+
+
     }
 }
