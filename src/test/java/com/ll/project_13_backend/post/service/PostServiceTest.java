@@ -32,8 +32,6 @@ class PostServiceTest {
     @DisplayName("게시글 찾기 ")
     void findPost() {
 
-
-
         Post post = Post.builder()
                 .id(1L)
                 .title("하하")
@@ -94,7 +92,7 @@ class PostServiceTest {
     @DisplayName("글 삭제")
     void deletePost() {
         Post post = Post.builder()
-                .id(1L)
+                .id(101L)
                 .title("안녕")
                 .content("하세요")
                 .build();
@@ -102,17 +100,21 @@ class PostServiceTest {
 
         postService.deletePost(savePost.getId());
 
-        assertEquals(0 , postRepository.count());
+        assertEquals(100 , postRepository.count());
     }
 
     @Test
     @DisplayName("페이징")
     void PageTest () {
-
+        //한 페이지 에  시작 번호는 0부터 10까지  이며 내림 차순
         Pageable pageable = PageRequest.of(0,10, Sort.by("id").descending());
 
+        //db 에 저장 되어 있는 모든 데이터 들을 페이징 처리 한다.
         Page<Post> posts =  postRepository.findAll(pageable);
 
+        assertThat(posts.getTotalElements()).isEqualTo(100L); // db 에 저장 되어 있는 전체 데이터
+        assertThat(posts.getSize()).isEqualTo(10L); //페이지당 보여줄 데이터의 갯수
+        assertThat(posts.getNumber()).isEqualTo(0L);
 
     }
 }
