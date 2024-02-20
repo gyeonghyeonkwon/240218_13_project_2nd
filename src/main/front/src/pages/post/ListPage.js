@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import moment from "moment";
 import 'moment/locale/ko'
 
-const ListPage = () => {
+const ListPage = ({data}) => {
   const [PostList, setList] = useState([]);
   const {id} = useParams();
   useEffect(() => {
@@ -37,16 +37,14 @@ const ListPage = () => {
         </thead>
         
         <tbody>
-          {PostList.map((postDto) => (
-            
-            <tr key={postDto.id}>
-              <td>{postDto.id}</td>
-              <td> <Link to={`/post/detail/${postDto.id}`}>{postDto.title}</Link></td>            
-              <td>{postDto.content}</td>
-              <td>{moment(postDto.createdDate).local('ko').format('lll')}</td>   {/* moment 라이브러리 사용하여 날짜 포맷  */}
-             
-            </tr>
-          ))} 
+            {data.map(postDto => (
+      <tr key={postDto.id}>
+        <td>{postDto.id}</td>
+        <td><Link to={`/post/detail/${postDto.id}`}>{postDto.title}</Link></td>
+        <td>{postDto.content}</td>
+        <td>{moment(postDto.createdDate).local('ko').format('lll')}</td>
+      </tr>
+    ))}
           
         </tbody> 
       </table>

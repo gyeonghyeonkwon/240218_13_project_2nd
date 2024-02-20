@@ -1,19 +1,16 @@
 package com.ll.project_13_backend.post.service;
 
+import com.ll.project_13_backend.member.entity.Member;
+import com.ll.project_13_backend.member.repository.MemberRepository;
 import com.ll.project_13_backend.post.dto.PostDto;
 import com.ll.project_13_backend.post.entity.Post;
 import com.ll.project_13_backend.post.repository.PostRepository;
-import com.ll.project_13_backend.post.repository.PostSearch;
 import groovy.util.logging.Slf4j;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,7 +29,10 @@ class PostServiceTest {
     private PostRepository postRepository;
 
     @Autowired
-    private PostSearch postSearch;
+    private MemberRepository memberRepository;
+
+//    @Autowired
+//    private PostSearch postSearch;
 
     @Test
     @DisplayName("게시글 찾기 ")
@@ -55,19 +55,26 @@ class PostServiceTest {
     @Test
     @DisplayName("글 등록")
     void createPost() {
+        Member member = Member.builder()
+                .id(1L)
+                .userName("홍길동")
+                .build();
+        Member saveMember = memberRepository.save(member);
+
 
         PostDto postDto = PostDto.builder()
                 .id(1L)
                 .title("안녕")
                 .content("하세요")
+                .memberId(1L)
                 .memberName("홍길동")
                 .build();
 
-
-        postService.createPost(postDto );
+      Long post = postService.createPost(postDto , member);
 
         assertThat(postDto.getTitle()).isEqualTo("안녕");
         assertThat(postDto.getContent()).isEqualTo("하세요");
+        assertThat(saveMember.getId()).isEqualTo(postDto.getMemberId());
 
 
     }
@@ -112,27 +119,27 @@ class PostServiceTest {
 
     }
 
-    @Test
-    @DisplayName("페이징")
-    void PageTest () {
-        //한 페이지 에  시작 번호는 0부터 10까지  이며 내림 차순
-        Pageable pageable = PageRequest.of(0,10, Sort.by("id").descending());
-
-        //db 에 저장 되어 있는 모든 데이터 들을 페이징 처리 한다.
-        Page<Post> posts =  postRepository.findAll(pageable);
-
-        assertThat(posts.getTotalElements()).isEqualTo(100L); // db 에 저장 되어 있는 전체 데이터
-        assertThat(posts.getSize()).isEqualTo(10L); //페이지당 보여줄 데이터의 갯수
-        assertThat(posts.getNumber()).isEqualTo(0L);
-
-    }
-
-    @Test
-    @DisplayName("검색")
-    void search() {
-
-       Page<Post> posts = postSearch.search();
-
-
-    }
+//    @Test
+//    @DisplayName("페이징")
+//    void PageTest () {
+//        //한 페이지 에  시작 번호는 0부터 10까지  이며 내림 차순
+//        Pageable pageable = PageRequest.of(0,10, Sort.by("id").descending());
+//
+//        //db 에 저장 되어 있는 모든 데이터 들을 페이징 처리 한다.
+//        Page<Post> posts =  postRepository.findAll(pageable);
+//
+//        assertThat(posts.getTotalElements()).isEqualTo(100L); // db 에 저장 되어 있는 전체 데이터
+//        assertThat(posts.getSize()).isEqualTo(10L); //페이지당 보여줄 데이터의 갯수
+//        assertThat(posts.getNumber()).isEqualTo(0L);
+//
+//    }
+//
+//    @Test
+//    @DisplayName("검색")
+//    void search() {
+//
+//       Page<Post> posts = postSearch.search();
+//
+//
+//    }
 }

@@ -2,6 +2,7 @@ package com.ll.project_13_backend.post.service;
 
 import com.ll.project_13_backend.global.exception.EntityNotFoundException;
 import com.ll.project_13_backend.global.exception.ErrorCode;
+import com.ll.project_13_backend.member.entity.Member;
 import com.ll.project_13_backend.member.repository.MemberRepository;
 import com.ll.project_13_backend.post.dto.PostDto;
 import com.ll.project_13_backend.post.entity.Post;
@@ -23,15 +24,17 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
 
-    public Long createPost(final PostDto postDto) {
+    public Long createPost(final PostDto postDto , final Member member) {
 
-        Post post = toEntity(postDto ); //@service 메서드 에 선언
+        Post post = toEntity(postDto); //@service 메서드 에 선언
+
+        post.setMember(member); //회원 저장
 
         Post postCreate = postRepository.save(post); // 게시글 엔티티 저장
 
-        return postCreate.getId(); //id 값 반환
+        return  postCreate.getId(); //id 값 반환
     }
-    @Override
+
     public PostDto findPost(final Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
@@ -45,8 +48,16 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND)); // 글 못 찾으면 예외
 
-        post.setTitle(postDto.getTitle()); //제목 수정
-        post.setContent(postDto.getContent()); //내용 수정
+//        post.setTitle(postDto.getTitle()); //제목 수정
+//        post.setContent(postDto.getContent()); //내용 수정
+
+        post = Post.builder()
+                .id(post.getId()) // 기존 ID 유지
+                .title(postDto.getTitle()) // 제목 수정
+                .content(postDto.getContent()) //내용 수정
+                .member(post.getMember()) // 멤버 정보는 변경하지 않음
+                .build();
+
 
         postRepository.save(post);
     }
@@ -64,6 +75,8 @@ public class PostServiceImpl implements PostService {
                         .id(post.getId())
                         .title(post.getTitle())
                         .content(post.getContent())
+                        .memberId(post.getMember().getId())
+                        .memberName(post.getMember().getUserName())
                         .createdDate(post.getCreatedDate())
                         .modifiedDate(post.getModifiedDate())
                         .build())

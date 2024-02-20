@@ -1,5 +1,6 @@
 package com.ll.project_13_backend.post.service;
 
+import com.ll.project_13_backend.member.entity.Member;
 import com.ll.project_13_backend.post.dto.PostDto;
 import com.ll.project_13_backend.post.entity.Post;
 
@@ -7,9 +8,9 @@ import java.util.List;
 
 public interface PostService {
     //생성
-    Long createPost(final PostDto postDto);
+    Long createPost(final PostDto postDto , final Member member );
     //조회
-    PostDto findPost(final Long postId);
+    PostDto findPost(final Long postId );
     //수정
     void updatePost(final PostDto postDto , final Long postId );
     //삭제
@@ -19,12 +20,14 @@ public interface PostService {
 
 
     // 엔티티 → dto
-    default PostDto toDto(Post post) {
+    default PostDto toDto(final Post post ) {
 
         return PostDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
+                .memberId(post.getMember().getId())
+                .memberName(post.getMember().getUserName())
                 .createdDate(post.getCreatedDate())
                 .modifiedDate(post.getModifiedDate())
                 .build();
