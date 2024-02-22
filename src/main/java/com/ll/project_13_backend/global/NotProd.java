@@ -28,16 +28,18 @@ public class NotProd {
     public void init() {
 
 
-       Member  member =  memberService.create("user1" , "nickname1" , "1234");
+        for (int i = 1 ; i <= 100; i++) {
 
-        Post post = Post.builder()
-                .title("하하")
-                .content("호호")
-                .member(member)
-                .build();
-        PostDto postDto = postService.toDto(post);
+            Member  member =  memberService.create("user"+i , "nickname"+i , "1234");
 
-        postService.createPost(postDto , member);
+            Post post = Post.builder()
+                    .title("하하" +i)
+                    .content("호호" +i)
+                    .member(member)
+                    .build();
+            PostDto postDto = postService.toDto(post);
 
+            postService.createPost(postDto, member);
+        }
     }
 }

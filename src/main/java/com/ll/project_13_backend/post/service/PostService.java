@@ -1,10 +1,10 @@
 package com.ll.project_13_backend.post.service;
 
 import com.ll.project_13_backend.member.entity.Member;
+import com.ll.project_13_backend.post.dto.PageRequestDto;
+import com.ll.project_13_backend.post.dto.PageResponseDto;
 import com.ll.project_13_backend.post.dto.PostDto;
 import com.ll.project_13_backend.post.entity.Post;
-
-import java.util.List;
 
 public interface PostService {
     //생성
@@ -16,7 +16,7 @@ public interface PostService {
     //삭제
     void deletePost(final Long postId);
     //목록
-    List<PostDto> listPost();
+    PageResponseDto<PostDto> listPost(PageRequestDto pageRequestDto);
 
 
     // 엔티티 → dto
@@ -31,8 +31,6 @@ public interface PostService {
                 .createdDate(post.getCreatedDate())
                 .modifiedDate(post.getModifiedDate())
                 .build();
-
-
     }
 
     // dto → 엔티티

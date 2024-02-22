@@ -28,6 +28,8 @@ dependencies {
     // 롬복
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
 
     // DB Driver
     runtimeOnly 'com.mysql:mysql-connector-j'

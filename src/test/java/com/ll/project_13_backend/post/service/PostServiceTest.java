@@ -2,11 +2,14 @@ package com.ll.project_13_backend.post.service;
 
 import com.ll.project_13_backend.member.entity.Member;
 import com.ll.project_13_backend.member.repository.MemberRepository;
+import com.ll.project_13_backend.post.dto.PageRequestDto;
+import com.ll.project_13_backend.post.dto.PageResponseDto;
 import com.ll.project_13_backend.post.dto.PostDto;
 import com.ll.project_13_backend.post.entity.Post;
 import com.ll.project_13_backend.post.repository.PostRepository;
-import groovy.util.logging.Slf4j;
+import groovy.transform.ToString;
 import jakarta.transaction.Transactional;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @TestPropertySource(properties = {"spring.config.location = classpath:application-test.yml"})
 @Transactional
-@Slf4j
+@ToString
+@Log4j2
 class PostServiceTest {
 
     @Autowired
@@ -119,6 +123,32 @@ class PostServiceTest {
 
     }
 
+    @Test
+    @DisplayName("글 작성자")
+    void writeAuthor() {
+        Member member = Member.builder()
+                .id(1L)
+                .userName("유저")
+                .build();
+        Member saveMember = memberRepository.save(member);
+
+        PostDto postDto = PostDto.builder()
+                .title("안녕")
+                .content("호허")
+                .memberId(saveMember.getId())
+                .memberName(saveMember.getUserName())
+                .build();
+
+         Long savePost = postService.createPost(postDto , saveMember);
+
+
+
+
+            assertThat(saveMember.getId()).isEqualTo(postDto.getMemberId());
+        System.out.println("savePost = " + savePost);
+            assertThat(saveMember).isEqualTo(2);
+    }
+
 //    @Test
 //    @DisplayName("페이징")
 //    void PageTest () {
@@ -142,4 +172,25 @@ class PostServiceTest {
 //
 //
 //    }
+
+    @Test
+    @DisplayName("리스트 페이지 테스트 ")
+    void list() {
+
+        PageRequestDto pageRequestDto = PageRequestDto.builder()
+
+                        .build();
+
+      PageResponseDto<PostDto> pageResponseDto =  postService.listPost(pageRequestDto);
+
+
+        assertThat(pageRequestDto.getPage()).isEqualTo(1);
+        assertThat(pageRequestDto.getSize()).isEqualTo(10);
+        assertThat(pageResponseDto.getTotalCount()).isEqualTo(100);
+        assertThat(pageResponseDto.getPageNumList().size()).isEqualTo(10);
+
+        log.info (postService.listPost(pageRequestDto));
+
+
+    }
 }

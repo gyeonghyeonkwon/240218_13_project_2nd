@@ -4,10 +4,13 @@ import com.ll.project_13_backend.global.exception.EntityNotFoundException;
 import com.ll.project_13_backend.global.exception.ErrorCode;
 import com.ll.project_13_backend.member.entity.Member;
 import com.ll.project_13_backend.member.repository.MemberRepository;
+import com.ll.project_13_backend.post.dto.PageRequestDto;
+import com.ll.project_13_backend.post.dto.PageResponseDto;
 import com.ll.project_13_backend.post.dto.PostDto;
 import com.ll.project_13_backend.post.entity.Post;
 import com.ll.project_13_backend.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +42,7 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
 
-        return toDto(post); //엔티티 DTO 로 변환
+        return toDto(post); //엔티티 DTO 로 반환
     }
 
     @Transactional
@@ -50,7 +53,9 @@ public class PostServiceImpl implements PostService {
 
 //        post.setTitle(postDto.getTitle()); //제목 수정
 //        post.setContent(postDto.getContent()); //내용 수정
-
+        /**
+         * DTO -> Entity 로 변환하여 DB 저장
+         */
         post = Post.builder()
                 .id(post.getId()) // 기존 ID 유지
                 .title(postDto.getTitle()) // 제목 수정
@@ -58,8 +63,7 @@ public class PostServiceImpl implements PostService {
                 .member(post.getMember()) // 멤버 정보는 변경하지 않음
                 .build();
 
-
-        postRepository.save(post);
+    postRepository.save(post);
     }
 
     @Transactional
@@ -68,19 +72,21 @@ public class PostServiceImpl implements PostService {
         postRepository.deleteById(postId);
     }
 
-    public List<PostDto> listPost() {
+    public PageResponseDto<PostDto> listPost(PageRequestDto pageRequestDto) {
 
-        return postRepository.findAll().stream()
-                .map(post -> PostDto.builder()
-                        .id(post.getId())
-                        .title(post.getTitle())
-                        .content(post.getContent())
-                        .memberId(post.getMember().getId())
-                        .memberName(post.getMember().getUserName())
-                        .createdDate(post.getCreatedDate())
-                        .modifiedDate(post.getModifiedDate())
-                        .build())
-                .collect(Collectors.toList());
+        Page<Post> pagePostList = postRepository.search(pageRequestDto);
+
+          List<PostDto> dtoList =   pagePostList.get().map(
+                post -> toDto(post)).collect(Collectors.toList());
+
+         PageResponseDto<PostDto> responseDto =
+                  PageResponseDto.<PostDto>withAll()
+                          .dtoList(dtoList)
+                          .pageRequestDto(pageRequestDto)
+                          .totalCount(pagePostList.getTotalElements())
+                    .build();
+
+         return responseDto;
     }
 
 
