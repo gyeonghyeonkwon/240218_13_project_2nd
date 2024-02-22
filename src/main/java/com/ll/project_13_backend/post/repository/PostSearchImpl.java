@@ -24,7 +24,7 @@ public class PostSearchImpl extends QuerydslRepositorySupport implements  PostSe
         JPQLQuery<Post> query = from(post);
 
 //        query.where(post.title.contains("1")); // 검색에 1인 값을 찾는다.
-        //페이지 번호 1부터 시작
+        //페이지 번호 1부터 시작 , 최신 순
         Pageable pageable = PageRequest.of(pageRequestDto.getPage() - 1, pageRequestDto.getSize(), Sort.by("id").descending());
 
         this.getQuerydsl().applyPagination(pageable, query);

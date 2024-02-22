@@ -53,6 +53,6 @@ public class PageResponseDto <E> { //제네릭
 
         this.totalPage = this.pageNumList.size();
 
-        this.current = pageRequestDto.getPage();
+        this.current = pageRequestDto.getPage(); //현재 페이지
     }
 }
