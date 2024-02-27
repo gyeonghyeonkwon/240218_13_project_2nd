@@ -9,7 +9,7 @@ export const getOne = async (id) => {
 
   const response = await axios.get(`${prefix}/${id}`)
   
-  return response.data; 
+  return response.data.data; 
  
 }
 // ?paga =  , ?size =

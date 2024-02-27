@@ -33,15 +33,15 @@ const DetailComponent = ({id}) => {
             <h1>글 상세 페이지</h1>
             <br />
             <h2 >제목</h2>
-            <input type ='text' placeholder="Type here" className="input input-bordered w-full max-w-xs" value={title} readOnly></input>
+            <input type ='text' placeholder="Type here" className="input input-bordered w-full max-w-xs" value={post.title} readOnly></input>
             <br />
             <br />
             <h2>내용</h2>
-            <input type ='text' className="input input-bordered w-full max-w-xs" value={content} readOnly></input>
+            <input type ='text' className="input input-bordered w-full max-w-xs" value={post.content} readOnly></input>
             <br />
             <br />
             <h2>작성일</h2>
-            <input type ='text' className="input input-bordered w-full max-w-xs" value={createdDate} readOnly></input>
+            <input type ='text' className="input input-bordered w-full max-w-xs" value={post.createdDate} readOnly></input>
             <br />
             <br />
             <div className="button-container" >
@@ -54,7 +54,6 @@ const DetailComponent = ({id}) => {
           </div>
   );
 }
-
 
 
 export default DetailComponent;

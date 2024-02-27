@@ -10,7 +10,7 @@ const ListPage = () => {
     const getPostList = async () => {
       try {
         const response = await axios.get('http://127.0.0.1:8080/api/post/list');
-        setList(response.data.data); // 서버에서 받은 데이터를 상태에 설정
+        setList(response.data.data.dtoList); // 서버에서 받은 데이터를 상태에 설정
       } catch (error) {
         console.error('글을 불러 올 수 없습니다 :', error);
       }
