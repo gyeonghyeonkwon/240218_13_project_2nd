@@ -23,7 +23,7 @@ const UpdatePage = () => {
   const getBoard = async () => {
     try {
       const response = await axios.get(`http://127.0.0.1:8080/api/post/detail/${id}`);
-      setFormData(response.data);
+      setFormData(response.data.data);
     } catch (error) {
       console.error('Error fetching post:', error);
     }
@@ -53,7 +53,7 @@ const UpdatePage = () => {
     try {
       const response = await axios.put(`http://127.0.0.1:8080/api/post/update/${id}`, formData);
       alert('수정되었습니다.');
-      console.log('글 수정 성공:', response.data);
+      console.log('글 수정 성공:', response.data.data);
       // 글 수정 후 다음 단계로 이동하거나 필요한 작업을 수행합니다.
       window.location.href = '/'; //글 수정 후 리스트로 이동
     } catch (error) {

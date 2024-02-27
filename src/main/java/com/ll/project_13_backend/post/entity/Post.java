@@ -15,7 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Getter
-@Setter
+@Setter  //임시로 setter 허용
+/**
+ * 값이 변경 가능한 필드만 Setter 를 허용한다.
+ */
 public class Post extends BaseEntity {
 
     @Id

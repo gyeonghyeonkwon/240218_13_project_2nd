@@ -33,8 +33,6 @@ public class PostController {
 //        }
 //    }
 
-
-
     //글 목록
     @GetMapping("/list")
     public RsData<PageResponseDto<PostDto>> getPostList(PageRequestDto pageRequestDto) {

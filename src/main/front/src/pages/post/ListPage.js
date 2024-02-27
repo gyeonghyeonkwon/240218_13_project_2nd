@@ -1,18 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import BasicLayout from "../../layouts/BasicLayout";
 import { Link, useParams } from "react-router-dom";
-import moment from "moment";
-import 'moment/locale/ko'
+import BasicLayout from "../../layouts/BasicLayout";
 
-const ListPage = ({data}) => {
+const ListPage = () => {
   const [PostList, setList] = useState([]);
   const {id} = useParams();
   useEffect(() => {
     const getPostList = async () => {
       try {
         const response = await axios.get('http://127.0.0.1:8080/api/post/list');
-        setList(response.data); // 서버에서 받은 데이터를 상태에 설정
+        setList(response.data.data); // 서버에서 받은 데이터를 상태에 설정
       } catch (error) {
         console.error('글을 불러 올 수 없습니다 :', error);
       }
@@ -37,14 +35,16 @@ const ListPage = ({data}) => {
         </thead>
         
         <tbody>
-            {data.map(postDto => (
-      <tr key={postDto.id}>
-        <td>{postDto.id}</td>
-        <td><Link to={`/post/detail/${postDto.id}`}>{postDto.title}</Link></td>
-        <td>{postDto.content}</td>
-        <td>{moment(postDto.createdDate).local('ko').format('lll')}</td>
-      </tr>
-    ))}
+          {PostList.map((postDto) => (
+            
+            <tr key={postDto.id}>
+              <td>{postDto.id}</td>
+              <td> <Link to={`/post/detail/${postDto.id}`}>{postDto.title}</Link></td>            
+              <td>{postDto.content}</td>
+              {/* 날짜 포맷   */}
+              <td>{new Date(postDto.createdDate).toLocaleString()}</td> 
+            </tr>
+          ))} 
           
         </tbody> 
       </table>

@@ -1,9 +1,8 @@
 import axios from 'axios';
-import React from 'react';
 
 export const  API_SERVER_HOST = 'http://127.0.0.1:8080'
 
-const prefix = `${API_SERVER_HOST}/api/post`
+const prefix = `${API_SERVER_HOST}/post/detail`
 
 
 export const getOne = async (id) => {
@@ -13,7 +12,7 @@ export const getOne = async (id) => {
   return response.data; 
  
 }
-
+// ?paga =  , ?size =
 export const getList = async (pageParam) => {
 
   const {page,size}  = pageParam;
